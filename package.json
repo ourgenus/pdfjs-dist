@@ -1,6 +1,6 @@
 {
   "name": "@genus/pdfjs-dist",
-  "version": "2.1.266",
+  "version": "2.1.267",
   "main": "build/pdf.js",
   "description": "Generic build of Mozilla's PDF.js library.",
   "keywords": [
