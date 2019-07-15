@@ -9909,58 +9909,61 @@ var DEFAULT_RANGE_CHUNK_SIZE = 65536;
 var isWorkerDisabled = false;
 var fallbackWorkerSrc;
 var fakeWorkerFilesLoader = null;
-{
-  var useRequireEnsure = false;
+// Commented due to fix https://github.com/wojtekmaj/react-pdf/issues/280
+// pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`; should be used instead
 
-  if (typeof window === 'undefined') {
-    isWorkerDisabled = true;
+// {
+//   var useRequireEnsure = false;
 
-    if (typeof require.ensure === 'undefined') {
-      require.ensure = require('node-ensure');
-    }
+//   if (typeof window === 'undefined') {
+//     isWorkerDisabled = true;
 
-    useRequireEnsure = true;
-  } else if (typeof require !== 'undefined' && typeof require.ensure === 'function') {
-    useRequireEnsure = true;
-  }
+//     if (typeof require.ensure === 'undefined') {
+//       require.ensure = require('node-ensure');
+//     }
 
-  if (typeof requirejs !== 'undefined' && requirejs.toUrl) {
-    fallbackWorkerSrc = requirejs.toUrl('pdfjs-dist/build/pdf.worker.js');
-  }
+//     useRequireEnsure = true;
+//   } else if (typeof require !== 'undefined' && typeof require.ensure === 'function') {
+//     useRequireEnsure = true;
+//   }
 
-  var dynamicLoaderSupported = typeof requirejs !== 'undefined' && requirejs.load;
-  fakeWorkerFilesLoader = useRequireEnsure ? function () {
-    return new Promise(function (resolve, reject) {
-      require.ensure([], function () {
-        try {
-          var worker;
-          worker = require('./pdf.worker.js');
-          resolve(worker.WorkerMessageHandler);
-        } catch (ex) {
-          reject(ex);
-        }
-      }, reject, 'pdfjsWorker');
-    });
-  } : dynamicLoaderSupported ? function () {
-    return new Promise(function (resolve, reject) {
-      requirejs(['pdfjs-dist/build/pdf.worker'], function (worker) {
-        try {
-          resolve(worker.WorkerMessageHandler);
-        } catch (ex) {
-          reject(ex);
-        }
-      }, reject);
-    });
-  } : null;
+//   if (typeof requirejs !== 'undefined' && requirejs.toUrl) {
+//     fallbackWorkerSrc = requirejs.toUrl('pdfjs-dist/build/pdf.worker.js');
+//   }
 
-  if (!fallbackWorkerSrc && (typeof document === "undefined" ? "undefined" : _typeof(document)) === 'object' && 'currentScript' in document) {
-    var pdfjsFilePath = document.currentScript && document.currentScript.src;
+//   var dynamicLoaderSupported = typeof requirejs !== 'undefined' && requirejs.load;
+//   fakeWorkerFilesLoader = useRequireEnsure ? function () {
+//     return new Promise(function (resolve, reject) {
+//       require.ensure([], function () {
+//         try {
+//           var worker;
+//           worker = require('./pdf.worker.js');
+//           resolve(worker.WorkerMessageHandler);
+//         } catch (ex) {
+//           reject(ex);
+//         }
+//       }, reject, 'pdfjsWorker');
+//     });
+//   } : dynamicLoaderSupported ? function () {
+//     return new Promise(function (resolve, reject) {
+//       requirejs(['pdfjs-dist/build/pdf.worker'], function (worker) {
+//         try {
+//           resolve(worker.WorkerMessageHandler);
+//         } catch (ex) {
+//           reject(ex);
+//         }
+//       }, reject);
+//     });
+//   } : null;
 
-    if (pdfjsFilePath) {
-      fallbackWorkerSrc = pdfjsFilePath.replace(/(\.(?:min\.)?js)(\?.*)?$/i, '.worker$1$2');
-    }
-  }
-}
+//   if (!fallbackWorkerSrc && (typeof document === "undefined" ? "undefined" : _typeof(document)) === 'object' && 'currentScript' in document) {
+//     var pdfjsFilePath = document.currentScript && document.currentScript.src;
+
+//     if (pdfjsFilePath) {
+//       fallbackWorkerSrc = pdfjsFilePath.replace(/(\.(?:min\.)?js)(\?.*)?$/i, '.worker$1$2');
+//     }
+//   }
+// }
 var createPDFNetworkStream;
 
 function setPDFNetworkStreamFactory(pdfNetworkStreamFactory) {

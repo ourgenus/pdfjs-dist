@@ -1,3 +1,5 @@
+# ⚠️ Fork usage should be removed once https://github.com/wojtekmaj/react-pdf/issues/280 will be fixed
+
 # PDF.js
 
 PDF.js is a Portable Document Format (PDF) library that is built with HTML5.
